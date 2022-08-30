@@ -1,6 +1,6 @@
-CLOUD SCHEDULER
+# CLOUD SCHEDULER
 
-FEATURE OF CLOUD CAPACITY MANAGEMENT
+# FEATURE OF CLOUD CAPACITY MANAGEMENT
 
 **Inspiration for the Product:**
 
@@ -54,7 +54,7 @@ Cron Job, IaaC Templates, Groovy script, Jenkins, Terraform, and Velero.
 
 Try this solution by using the provided installation and setup guide.
 
-Installation guide - [Installation Guide.docx (sharepoint.com)](https://criticalrivertechnologies.sharepoint.com/:w:/r/sites/DevSecOps/_layouts/15/Doc.aspx?sourcedoc=%7BC38C9F35-D4A7-43A0-B5E8-78923F35F0FE%7D&file=Installation%20Guide.docx&action=default&mobileredirect=true)
+Installation guide - [Installation Guide.docx](https://github.com/CR-Digital-Innovation/cloud-capacity-management/tree/main/docs)
 
 **Related Documents:**
 
