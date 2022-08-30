@@ -1,4 +1,4 @@
-# CLOUD CAPACITY MANAGEMENT
+# Cloud Capacity Management
 
 ## Inspiration for the Product:
 
