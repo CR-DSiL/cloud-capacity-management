@@ -1,0 +1,128 @@
+// ################ Jenkins file for VM Scheduling pipeline job.################## 
+// ###We have to provide the instances details i.e. for gcp instance name, zone and the project id of the instance and for aws we have to provide the instance id ###
+
+node (){
+        properties([
+            parameters([
+                string(name: 'Enviro', defaultValue: '', description: ''),
+                string(name: 'Mode', defaultValue: '', description: ''),
+                string(name: 'Provider', defaultValue: '', description: '')
+            ])
+        ])
+        if (Provider.equals('GCP')){
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('STARTUP')){
+                    stage('SBX VMs START UP'){
+                        sh 'gcloud compute instances start <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SBX VMs SHUT DOWN'){
+                        sh 'gcloud compute instances stop <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+            }else if (Enviro.equals('DEV')){
+                if (Mode.equals('STARTUP')){
+                    stage('DEV VMs START UP'){
+                        sh 'gcloud compute instances start <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('DEV VMs SHUT DOWN'){
+                        sh 'gcloud compute instances stop <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+            }else if (Enviro.equals('SIT')){
+                if (Mode.equals('STARTUP')){
+                    stage('SIT VMs START UP'){
+                        sh 'gcloud compute instances start <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SIT VMs SHUT DOWN'){
+                        sh 'gcloud compute instances stop <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+            }else if (Enviro.equals('UAT')){
+                if (Mode.equals('STARTUP')){
+                    stage('UAT VMs START UP'){
+                        sh 'gcloud compute instances start <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('UAT VMs SHUT DOWN'){
+                        sh 'gcloud compute instances stop <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+            }else if (Enviro.equals('PROD')){
+                if (Mode.equals('STARTUP')){
+                    stage('PROD VMs START UP'){
+                        sh 'gcloud compute instances start <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('PROD VMs SHUT DOWN'){
+                        sh 'gcloud compute instances stop <gcp instances name> --zone=<instances zone> --project=<instances project id>'
+                    }
+                }
+            }
+        }
+        else if (Provider.equals('AWS')){
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('STARTUP')){
+                    stage('SBX VMs START UP'){
+                        sh 'aws ec2 start-instances --instance-ids <aws instances id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SBX VMs SHUT DOWN'){
+                        sh 'aws ec2 stop-instances --instance-ids <aws instances id>'
+                    }
+                }
+            }else if (Enviro.equals('DEV')){
+                if (Mode.equals('STARTUP')){
+                    stage('DEV VMs START UP'){
+                        sh 'aws ec2 start-instances --instance-ids <aws instances id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('DEV VMs SHUT DOWN'){
+                        sh 'aws ec2 stop-instances --instance-ids <aws instances id>'
+                    }
+                }
+            }else if (Enviro.equals('SIT')){
+                if (Mode.equals('STARTUP')){
+                    stage('SIT VMs START UP'){
+                        sh 'aws ec2 start-instances --instance-ids <aws instances id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SIT VMs SHUT DOWN'){
+                        sh 'aws ec2 stop-instances --instance-ids <aws instances id>'
+                    }
+                }
+            }else if (Enviro.equals('UAT')){
+                if (Mode.equals('STARTUP')){
+                    stage('UAT VMs START UP'){
+                        sh 'aws ec2 start-instances --instance-ids <aws instances id>'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('UAT VMs SHUT DOWN'){
+                        sh 'aws ec2 stop-instances --instance-ids <aws instances id>'
+                    }
+                }
+            }else if (Enviro.equals('PROD')){
+                if (Mode.equals('STARTUP')){
+                    stage('PROD VMs START UP'){
+                        sh 'aws ec2 start-instances --instance-ids <aws instances id>'
+                    }
+            }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('PROD VMs SHUT DOWN'){
+                        sh 'aws ec2 stop-instances --instance-ids <aws instances id>'
+                    }
+                }
+            }    
+        }
+}

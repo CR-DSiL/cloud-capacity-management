@@ -1,0 +1,241 @@
+//########## Jenkins file for velero cluster backup and restore ##########
+// ##### Please provide the cluster name, zone and the bucket name #####
+node(){
+    properties([
+            parameters([
+                string(name: 'Enviro', defaultValue: '', description: ''),
+                string(name: 'Mode', defaultValue: '', description: ''),
+                string(name: 'Provider', defaultValue: '', description: '')
+            ])
+        ])
+// ########## For Cloud Provider GCP Backup and Restore job will run on Jenkins worker01 ##########
+    if (Provider.equals('GCP')){
+        node ('worker01'){
+// ########## For Backup and Restore of SBX Environment in GCP ########## 
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of UAT Environment in GCP ##########
+            else if (Mode.equals('UAT')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of SIT Environment in GCP ##########
+            else if (Mode.equals('SIT')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of DEV Environment in GCP ##########
+            else if (Mode.equals('DEV')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of PROD Environment in GCP ##########
+            else if (Mode.equals('PROD')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <gcp cluster name> <gcp bucket name>")
+                    }
+                }
+            }
+        }
+    }
+// ########## For Cloud Provider AWS Backup and Restore job will run on Jenkins worker02 ##########
+    else if (Provider.equals('AWS')){
+        node ('worker02'){
+// ########## For Backup and Restore of SBX Environment in AWS ##########
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh("chmod +x cr-backup-aws.sh && ./cr-backup-aws.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore-aws.sh && ./cr-restore-aws.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of SBX Environment in AWS ##########
+            else if (Mode.equals('UAT')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of SIT Environment in AWS ##########
+            else if (Mode.equals('SIT')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of DEV Environment in AWS ##########
+            else if (Mode.equals('DEV')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+            }
+// ########## For Backup and Restore of PROD Environment in AWS ##########
+            else if (Mode.equals('PROD')){
+                if (Mode.equals('BACKUP')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Backup Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh("chmod +x cr-backup.sh && ./cr-backup.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+                else if (Mode.equals('RESTORE')){
+                    stage('Git Checkout'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private github ssh url>'
+                    }
+                    stage("Restore Process For" +String.valueOf(Enviro)){
+                        sh 'aws eks update-kubeconfig --region <aws region> --name <aws cluster name>'
+                        sh 'kubectl get nodes -o wide'
+                        sh("chmod +x cr-restore.sh && ./cr-restore.sh <aws cluster name> <aws bucket name>")
+                    }
+                }
+            }
+        }
+    }   
+}

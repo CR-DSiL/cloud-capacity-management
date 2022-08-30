@@ -1,0 +1,306 @@
+// ########## Jenkins File for Creating and Destroying Kubernetes Cluster #########
+// ##### Please provide absolute path to the account json file, the cluster name and the cluster gcp zone #######
+node(){
+    properties([
+            parameters([
+                string(name: 'Enviro', defaultValue: '', description: ''),
+                string(name: 'Mode', defaultValue: '', description: ''),
+                string(name: 'Provider', defaultValue: '', description: '')
+            ])
+        ])
+// ########## For Cloud Provider GCP K8s Cluster Create and Destroy job will run on Jenkins worker01 ##########
+    if (Provider.equals('GCP')){
+        node ('worker01'){
+// ########## For Cluster Create and Destroy of SBX Environment in GCP ########## 
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "environment=sbx"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "environment=sbx" --auto-approve'
+                            sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "environment=sbx" --auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of UAT Environment in GCP ##########
+            else if (Enviro.equals('UAT')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "environment=uat"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "environment=uat" --auto-approve'
+                            sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "environment=uat" --auto-approve'
+                        }
+                    }
+                }
+            } 
+// ########## For Cluster Create and Destroy of SIT Environment in GCP ##########
+            else if (Enviro.equals('SIT')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "environment=sit"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "environment=sit" --auto-approve'
+                            sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "environment=sit" --auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of DEV Environment in GCP ##########
+            else if (Enviro.equals('DEV')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "environment=dev"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "environment=dev" --auto-approve'
+                            sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "environment=dev"--auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of PROD Environment in GCP ##########
+            else if (Enviro.equals('PROD')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "environment=prod"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "environment=prod" --auto-approve'
+                            sh 'gcloud container clusters get-credentials <gcp cluster name> --zone=<gcp zone>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/GCP/GKE"){
+                            sh 'export GOOGLE_CLOUD_KEYFILE_JSON="/absolute/path/to/account.json"'
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "environment=prod" --auto-approve'
+                        }
+                    }
+                }
+            }
+        }
+    }
+// ########## For Cloud Provider AWS K8s Cluster Create and Destroy job will run on Jenkins worker02 ##########
+    else if (Provider.equals('AWS')){
+        environment {
+            AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+            AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        }
+        node ('worker02'){
+// ########## For Cluster Create and Destroy of SBX Environment in AWS ##########
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'pwd'
+                            sh 'terraform init -migrate-state'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "aws_cluster_name=sbx"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars"  -var "aws_cluster_name=sbx" --auto-approve'
+                            sh 'aws eks update-kubeconfig --region <aws cluster region> --name <aws cluster name>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "aws_cluster_name=sbx" --auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of SIT Environment in AWS ##########
+            else if (Enviro.equals('SIT')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "aws_cluster_name=sit"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "aws_cluster_name=sit" --auto-approve'
+                            sh 'aws eks update-kubeconfig --region <aws cluster region> --name <aws cluster name>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "aws_cluster_name=sit" --auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of UAT Environment in AWS ########## 
+            else if (Enviro.equals('UAT')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "aws_cluster_name=uat"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "aws_cluster_name=uat" --auto-approve'
+                            sh 'aws eks update-kubeconfig --region <aws cluster region> --name <aws cluster name>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "aws_cluster_name=uat" --auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of DEV Environment in AWS ##########
+            else if (Enviro.equals('DEV')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "aws_cluster_name=dev"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "aws_cluster_name=dev" --auto-approve'
+                            sh 'aws eks update-kubeconfig --region <aws cluster region> --name <aws cluster name>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "aws_cluster_name=dev" --auto-approve'
+                        }
+                    }
+                }
+            }
+// ########## For Cluster Create and Destroy of PROD Environment in AWS ##########
+            else if (Enviro.equals('PROD')){
+                if (Mode.equals('RESTORE')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Recreate Initialization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform init'
+                            sh 'terraform plan -var-file="variables_auto.tfvars" -var "aws_cluster_name=prod"'
+                            sh 'terraform validate'
+                            sh 'terraform apply -var-file="variables_auto.tfvars" -var "aws_cluster_name=prod" --auto-approve'
+                            sh 'aws eks update-kubeconfig --region <aws cluster region> --name <aws cluster name>'
+                        }
+                    }
+                }
+                else if (Mode.equals('DESTROY')){
+                    stage('Git Clone'){
+                        git branch: 'main', credentialsId: 'GitHub_Private_Key', url: '<private guthub ssh url>'
+                    }
+                    stage("Terraform Destroy Initilization For " +String.valueOf(Enviro)  +String.valueOf(Provider)){
+                        dir ("${env.WORKSPACE}/aws/EKS"){
+                            sh 'terraform destroy -var-file="variables_auto.tfvars" -var "aws_cluster_name=prod" --auto-approve'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

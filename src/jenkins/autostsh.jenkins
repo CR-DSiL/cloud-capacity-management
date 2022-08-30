@@ -1,0 +1,174 @@
+// Jenkins file for Auto startup and shutdown pipeline job. It includes the timezone and time for the instacnes to start and stop.
+
+node(){
+    properties([
+    parameters([
+        [$class: 'ChoiceParameter', 
+            choiceType: 'PT_SINGLE_SELECT', 
+            description: 'Select the Provider Name from the Dropdown List', 
+            filterLength: 1, 
+            filterable: false, 
+            name: 'Provider', 
+            randomName: 'choice-parameter-Provider', 
+            script: [
+                $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: true, 
+                    script: 
+                        'return[\'Could not get Provider\']' // error message for Provider Choice Parameter
+                ], 
+                script: [
+                    classpath: [], 
+                    sandbox: true, 
+                    script: 
+                        'return["AWS","GCP"]'   // Values required in drop down menu
+                ]
+            ]
+        ], 
+        [$class: 'CascadeChoiceParameter', 
+            choiceType: 'PT_SINGLE_SELECT', 
+            description: 'Select the Environment from the Dropdown List', 
+            filterLength: 1, 
+            filterable: false, 
+            name: 'Environs', 
+            randomName: 'choice-parameter-Environs', 
+            referencedParameters: 'Provider', 
+            script: [
+                $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: true, 
+                    script: 
+                        'return[\'Could not get Environment from Env Param\']'
+                ], 
+                script: [
+                    classpath: [], 
+                    sandbox: true, 
+                    script: 
+                        ''' if (Provider.equals("AWS")){
+                                return["SBX","DEV","SIT","UAT","PROD"]
+                            }
+                            else if(Provider.equals("GCP")){
+                                return["SBX","DEV","SIT","UAT","PROD"]
+                            }
+                        '''
+                ]
+            ]
+        ],
+        [$class: 'CascadeChoiceParameter', 
+            choiceType: 'PT_SINGLE_SELECT', 
+            description: 'Select the Mode from the Dropdown List', 
+            filterLength: 1, 
+            filterable: false, 
+            name: 'Mode', 
+            randomName: 'choice-parameter-Mode', 
+            referencedParameters: 'Environs', 
+            script: [
+                $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: true, 
+                    script: 
+                        'return[\'Could not get Mode from Env Param\']'
+                ], 
+                script: [
+                    classpath: [], 
+                    sandbox: true, 
+                    script: 
+                        ''' if (Environs.equals("SBX")){
+                                return["STARTUP","SHUTDOWN"]
+                            }
+                            if (Environs.equals("DEV")){
+                                return["STARTUP","SHUTDOWN"]
+                            }
+                            if (Environs.equals("SIT")){
+                                return["STARTUP","SHUTDOWN"]
+                            }
+                            if (Environs.equals("UAT")){
+                                return["STARTUP","SHUTDOWN"]
+                            }
+                            if (Environs.equals("PROD")){
+                                return["STARTUP","SHUTDOWN"]
+                            }
+                        '''
+                    ]
+                ]
+            ]
+        ]),
+        pipelineTriggers([
+            parameterizedCron('''
+###########Input the startup and Shut down time in cron job format.################
+                TZ=Asia/Calcutta
+            #IST (Indian Standard Time)
+            #-----------------GCP--------------------------
+            #-------STARTUP----SBX---GCP---
+            #15 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=GCP
+            #-------SHUTDOWN--SBX---GCP----
+            #45 18 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=GCP
+            #-------STARTUP----DEV---GCP---
+            #0 09 * * 1-5 %Environs=DEV;Mode=STARTUP;Provider=GCP
+            #-------SHUTDOWN--DEV---GCP---
+            #30 18 * * 1-5 %Environs=DEV;Mode=SHUTDOWN;Provider=GCP
+            #-------STARTUP----SIT---GCP---
+            #0 09 * * 1-5 %Environs=SIT;Mode=STARTUP;Provider=GCP
+            #-------SHUTDOWN--SIT---GCP---
+            #30 18 * * 1-5 %Environs=SIT;Mode=SHUTDOWN;Provider=GCP
+            #-------STARTUP----UAT---GCP---
+            #0 09 * * 1-5 %Environs=UAT;Mode=STARTUP;Provider=GCP
+            #-------SHUTDOWN--UAT---GCP---
+            #30 18 * * 1-5 %Environs=UAT;Mode=SHUTDOWN;Provider=GCP
+            #-------STARTUP----PROD---GCP---
+            #10 09 * * 1-5 %Environs=PROD;Mode=STARTUP;Provider=GCP
+            #-------SHUTDOWN--PROD---GCP---
+            #40 18 * * 1-5 %Environs=PROD;Mode=SHUTDOWN;Provider=GCP
+
+            #--------------------AWS-------------------------------
+            #-------STARTUP----SBX---AWS---
+            #32 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AWS
+            #-------SHUTDOWN--SBX---AWS----
+            #47 18 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AWS
+            #-------STARTUP----DEV---AWS---
+            #13 09 * * 1-5 %Environs=DEV;Mode=STARTUP;Provider=AWS
+            #-------SHUTDOWN--DEV---AWS---
+            #33 18 * * 1-5 %Environs=DEV;Mode=SHUTDOWN;Provider=AWS
+            #-------STARTUP----SIT---AWS---
+            #0 09 * * 1-5 %Environs=SIT;Mode=STARTUP;Provider=AWS
+            #-------SHUTDOWN--SIT---AWS---
+            #30 18 * * 1-5 %Environs=SIT;Mode=SHUTDOWN;Provider=AWS
+            #-------STARTUP----UAT---AWS---
+            #0 09 * * 1-5 %Environs=UAT;Mode=STARTUP;Provider=AWS
+            #-------SHUTDOWN--UAT---AWS---
+            #30 18 * * 1-5 %Environs=UAT;Mode=SHUTDOWN;Provider=AWS
+            #-------STARTUP----PROD---AWS---
+            #10 09 * * 1-5 %Environs=PROD;Mode=STARTUP;Provider=AWS
+            #-------SHUTDOWN--PROD---AWS---
+            #40 18 * * 1-5 %Environs=PROD;Mode=SHUTDOWN;Provider=AWS
+            ''')
+        ])
+    ])
+    if(Mode.equals('STARTUP')){
+        stage("Starting VM's for "+String.valueOf(Environs)){
+            echo "Starting VM's for ${String.valueOf(Environs)}"
+            build quietPeriod: 5, job: 'vm-startup-shutdown', parameters: [string(name: 'Enviro', value: String.valueOf(Environs)), string(name: 'Mode', value: 'STARTUP'), string(name: 'Provider', value: String.valueOf(Provider))] 
+        }
+        stage("creating and restoring of clusters for "+String.valueOf(Environs)){
+            build quietPeriod: 10, job: 'tf-restore-destroy', parameters: [string(name: 'Enviro', value: String.valueOf(Environs)), string(name: 'Mode', value: 'RESTORE'), string(name: 'Provider', value: String.valueOf(Provider))]
+        }
+         stage("Restoring cluster for "+String.valueOf(Environs)){
+             build job: 'vlr-restore-backup', parameters: [string(name: 'Enviro', value: String.valueOf(Environs)), string(name: 'Mode', value: 'RESTORE'), string(name: 'Provider', value: String.valueOf(Provider))]
+         }
+    }
+    else if(Mode.equals('SHUTDOWN')){
+             stage("Taking Backup for"+String.valueOf(Environs)){
+                 build job: 'vlr-restore-backup', parameters: [string(name: 'Enviro', value: String.valueOf(Environs)), string(name: 'Mode', value: 'BACKUP'), string(name: 'Provider', value: String.valueOf(Provider))]
+             }
+            stage("Destorying clusters for"+String.valueOf(Environs)){
+                build quietPeriod: 10, job: 'tf-restore-destroy', parameters: [string(name: 'Enviro', value: String.valueOf(Environs)), string(name: 'Mode', value: 'DESTROY'), string(name: 'Provider', value: String.valueOf(Provider))]
+            }
+            stage("VM's shutdown for "+String.valueOf(Environs)){
+                echo "Stopping VM's for ${String.valueOf(Environs)}"
+                build quietPeriod: 5, job: 'vm-startup-shutdown', parameters: [string(name: 'Enviro', value: String.valueOf(Environs)), string(name: 'Mode', value: 'SHUTDOWN'), string(name: 'Provider', value: String.valueOf(Provider))]  
+            }  
+        }
+}
