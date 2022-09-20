@@ -53,8 +53,3 @@ Cron Job, IaaC Templates, Groovy script, Jenkins, Terraform, and Velero.
 Try this solution by using the provided installation and setup guide.
 
 Installation guide - [Installation Guide.docx](https://github.com/CR-Digital-Innovation/cloud-capacity-management/tree/main/docs)
-
-## Related Documents:
-
--   Scheduler Release notes 1.0: [Scheduler Release notes 1.0.docx (sharepoint.com)](https://criticalrivertechnologies.sharepoint.com/:w:/r/sites/DevSecOps/_layouts/15/Doc.aspx?sourcedoc=%7B25160382-A88B-4E1A-A6FA-310DB051C479%7D&file=Scheduler%20Release%20notes%201.0.docx&action=default&mobileredirect=true)
--   Installation and setup guide: [Installation Guide.docx (sharepoint.com)](https://criticalrivertechnologies.sharepoint.com/:w:/r/sites/DevSecOps/_layouts/15/doc2.aspx?sourcedoc=%7BC38C9F35-D4A7-43A0-B5E8-78923F35F0FE%7D&file=Installation%20Guide.docx&action=default&mobileredirect=true)
