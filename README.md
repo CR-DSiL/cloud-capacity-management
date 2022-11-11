@@ -1,4 +1,10 @@
-# Cloud Capacity Management
+## Cloud Capacity Management ☁️ 💰
+
+![GitHub all releases](https://img.shields.io/github/downloads/CR-Digital-Innovation/cloud-capacity-management/total)
+![GitHub language count](https://img.shields.io/github/languages/count/CR-Digital-Innovation/cloud-capacity-management)
+![GitHub top language](https://img.shields.io/github/languages/top/CR-Digital-Innovation/cloud-capacity-management?color=yellow)
+![GitHub forks](https://img.shields.io/github/forks/CR-Digital-Innovation/cloud-capacity-management?style=social)
+![GitHub Repo stars](https://img.shields.io/github/stars/CR-Digital-Innovation/cloud-capacity-management?style=social)
 
 ## Inspiration for the Product:
 
