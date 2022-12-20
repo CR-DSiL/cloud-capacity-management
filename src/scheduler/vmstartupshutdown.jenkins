@@ -1,0 +1,51 @@
+node (){
+        properties([
+            parameters([
+                string(name: 'Enviro', defaultValue: '', description: ''),
+                string(name: 'Mode', defaultValue: '', description: ''),
+                string(name: 'Provider', defaultValue: '', description: '')
+            ])
+        ])
+        if (Provider.equals('GCP')){
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('STARTUP')){
+                    stage('SBX VMs START UP'){
+                        sh 'gcloud compute instances start sbx-scheduler --zone=us-central1-a --project=cr-gcp-devsecops-353409'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SBX VMs SHUT DOWN'){
+                        sh 'gcloud compute instances stop sbx-scheduler --zone=us-central1-a --project=cr-gcp-devsecops-353409'
+                    }
+                }
+            }
+        }
+        else if (Provider.equals('AWS')){
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('STARTUP')){
+                    stage('SBX VMs START UP'){
+                        sh 'aws ec2 start-instances --instance-ids i-0157d21b52ee902b3'
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SBX VMs SHUT DOWN'){
+                        sh 'aws ec2 stop-instances --instance-ids i-0157d21b52ee902b3'
+                    }
+                }
+            }    
+        }
+        else if (Provider.equals('AZURE')){
+            if (Enviro.equals('SBX')){
+                if (Mode.equals('STARTUP')){
+                    stage('SBX VMs START UP'){
+                        sh 'az vm start --resource-group --name '
+                    }
+                }
+                if (Mode.equals('SHUTDOWN')){
+                    stage('SBX VMs SHUT DOWN'){
+                        sh 'az vm stop --resource-group --name '
+                    }
+                }
+            }    
+        }
+}
