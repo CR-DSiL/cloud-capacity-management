@@ -112,9 +112,9 @@ node(){
            
             #--------------------AWS-------------------------------
             #-------STARTUP----SBX---AWS---
-            00 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AWS
+            05 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AWS
             #-------SHUTDOWN--SBX---AWS----
-            00 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AWS
+            05 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AWS
             
             #--------------------AZURE-------------------------------
             #-------STARTUP----SBX---AZURE---
