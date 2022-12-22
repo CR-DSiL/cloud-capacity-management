@@ -38,12 +38,12 @@ node (){
             if (Enviro.equals('SBX')){
                 if (Mode.equals('STARTUP')){
                     stage('SBX VMs START UP'){
-                        sh 'az vm start --resource-group --name '
+                        sh 'az vm start --resource-group AI-Usecases --name ml-usecases-demo-machine'
                     }
                 }
                 if (Mode.equals('SHUTDOWN')){
                     stage('SBX VMs SHUT DOWN'){
-                        sh 'az vm stop --resource-group --name '
+                        sh 'az vm stop --resource-group AI-Usecases --name ml-usecases-demo-machine'
                     }
                 }
             }    
