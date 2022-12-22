@@ -106,9 +106,9 @@ node(){
             #IST (Indian Standard Time)
             #-----------------GCP--------------------------
             #-------STARTUP----SBX---GCP---
-            00 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=GCP
+            10 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=GCP
             #-------SHUTDOWN--SBX---GCP----
-            00 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=GCP
+            10 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=GCP
            
             #--------------------AWS-------------------------------
             #-------STARTUP----SBX---AWS---
@@ -118,9 +118,9 @@ node(){
             
             #--------------------AZURE-------------------------------
             #-------STARTUP----SBX---AZURE---
-            #00 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AZURE
+            00 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AZURE
             #-------SHUTDOWN--SBX---AZURE----
-            #00 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AZURE
+            00 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AZURE
             ''')
         ])
     ])
