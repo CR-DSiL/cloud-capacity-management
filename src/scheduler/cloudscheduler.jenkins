@@ -99,8 +99,8 @@ node(){
                 ]
             ]
         ]),
-#        pipelineTriggers([
-#            parameterizedCron('''
+        pipelineTriggers([
+            parameterizedCron('''
 ###########Input the startup and Shut down time in cron job format.################
 #                TZ=Asia/Calcutta
             #IST (Indian Standard Time)
