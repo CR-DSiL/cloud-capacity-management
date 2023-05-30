@@ -99,28 +99,28 @@ node(){
                 ]
             ]
         ]),
-        pipelineTriggers([
-            parameterizedCron('''
+#        pipelineTriggers([
+#            parameterizedCron('''
 ###########Input the startup and Shut down time in cron job format.################
-                TZ=Asia/Calcutta
+#                TZ=Asia/Calcutta
             #IST (Indian Standard Time)
             #-----------------GCP--------------------------
             #-------STARTUP----SBX---GCP---
-            10 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=GCP
+#           10 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=GCP
             #-------SHUTDOWN--SBX---GCP----
-            10 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=GCP
+#           10 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=GCP
            
             #--------------------AWS-------------------------------
             #-------STARTUP----SBX---AWS---
-            05 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AWS
+#            05 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AWS
             #-------SHUTDOWN--SBX---AWS----
-            05 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AWS
+#            05 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AWS
             
             #--------------------AZURE-------------------------------
             #-------STARTUP----SBX---AZURE---
-            00 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AZURE
+#            00 09 * * 1-5 %Environs=SBX;Mode=STARTUP;Provider=AZURE
             #-------SHUTDOWN--SBX---AZURE----
-            00 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AZURE
+#            00 21 * * 1-5 %Environs=SBX;Mode=SHUTDOWN;Provider=AZURE
             ''')
         ])
     ])
